@@ -7,6 +7,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.*;
 
+import javax.swing.SortingFocusTraversalPolicy;
+
 /**
  * Created by jjenkov on 16-10-2015.
  */
@@ -37,7 +39,8 @@ public class SocketProcessor implements Runnable {
     private Set<Socket> nonEmptyToEmptySockets = new HashSet<>();
 
 
-    public SocketProcessor(Queue<Socket> inboundSocketQueue, MessageBuffer readMessageBuffer, MessageBuffer writeMessageBuffer, IMessageReaderFactory messageReaderFactory, IMessageProcessor messageProcessor) throws IOException {
+    public SocketProcessor(Queue<Socket> inboundSocketQueue, MessageBuffer readMessageBuffer, MessageBuffer writeMessageBuffer
+    					, IMessageReaderFactory messageReaderFactory, IMessageProcessor messageProcessor) throws IOException {
         this.inboundSocketQueue = inboundSocketQueue;
 
         this.readMessageBuffer    = readMessageBuffer;
@@ -100,6 +103,7 @@ public class SocketProcessor implements Runnable {
 
     public void readFromSockets() throws IOException {
         int readReady = this.readSelector.selectNow();
+//        System.out.println(readReady);
 
         if(readReady > 0){
             Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
